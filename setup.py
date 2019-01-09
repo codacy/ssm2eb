@@ -11,7 +11,7 @@ def read(*parts):
 
 setup(
     name='ssm2eb',
-    version='0.1.1',
+    version='0.1.2',
     description='A simple tool to get ssm parameters to an .ebextensions file',
     long_description=open('README.rst').read(),
     url='https://github.com/codacy/ssm2eb',
