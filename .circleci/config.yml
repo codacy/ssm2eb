@@ -34,9 +34,8 @@ jobs:
           command: |
             echo -e "[pypi]" >> ~/.pypirc
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              echo -e "repository = https://test.pypi.org/legacy/" >> ~/.pypirc
-              echo -e "username = $TEST_PYPI_USERNAME" >> ~/.pypirc
-              echo -e "password = $TEST_PYPI_PASSWORD" >> ~/.pypirc
+              echo -e "username = $PYPI_USERNAME" >> ~/.pypirc
+              echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
             else
               echo -e "repository = https://test.pypi.org/legacy/" >> ~/.pypirc
               echo -e "username = $TEST_PYPI_USERNAME" >> ~/.pypirc
