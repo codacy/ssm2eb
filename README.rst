@@ -1,8 +1,8 @@
 .. image:: https://api.codacy.com/project/badge/Grade/f557a65b337b45a5977533f6ba82492b
    :target: https://www.codacy.com?utm_source=github.com&utm_medium=referral&utm_content=codacy/ssm2eb&utm_campaign=Badge_Grade
 
-.. image:: https://circleci.com/gh/codacy/ssm2eb.svg?style=svg
-   :target: https://circleci.com/gh/codacy/ssm2eb
+.. image:: https://circleci.com/gh/codacy/ssm2eb.svg?style=svg&circle-token=4ff9167ff36273f376a7660660541bf8a3625d8f
+    :target: https://circleci.com/gh/codacy/ssm2eb
 
 ======
 SSM2EB
