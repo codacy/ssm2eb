@@ -8,7 +8,7 @@
 SSM2EB
 ======
 
-A simple tool to get ssm parameters to an .ebextensions file
+A simple tool to get ssm parameters to an .ebextensions file.
 
 -----
 Usage
