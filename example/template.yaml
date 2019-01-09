@@ -1,0 +1,16 @@
+component: # Will be set to the "value" field or stdin when `--mode set` is used
+  - option_name: TARGET_URL
+    description: "Target url"
+    path: "/myservice/TARGET_URL"
+    value: "defaultvalue.example.com"
+  - option_name: TARGET_USER
+    description: "Target user"
+    path: "/myservice/TARGET_USER"
+
+external:
+  - option_name: PRE_EXISTING_VARIABLE_1
+    path: "/PRE_EXISTING_VARIABLE_1"
+  - option_name: PRE_EXISTING_VARIABLE_2
+    path: "/someservice/PRE_EXISTING_VARIABLE_2"
+  - option_name: VPCID
+    path: "/VPCID"

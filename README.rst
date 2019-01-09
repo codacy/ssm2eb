@@ -14,6 +14,20 @@ A simple tool to get ssm parameters to an .ebextensions file.
 Usage
 -----
 
+Create a template like the one in `<example/template.yaml>`_.
+
+^^^^^^^^^^^^^^^^^^^^^^^^
+Example:
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    $ ssm2eb -i example/template.yaml -o .ebextensions/env_variables.config
+
+^^^^^^^^^^^^^^^^^^^^^^^^
+Help:
+^^^^^^^^^^^^^^^^^^^^^^^^
+
 .. code-block:: bash
 
     $ ssm2eb -h
@@ -34,7 +48,8 @@ Usage
                             ssm parameters (e.g. codacy)
       --mode {set,get}, -m {set,get}
                             enable set or get mode (default is get)
-
+    usage: ssm2eb [-h] [--input INPUT] [--output OUTPUT]
+    [--environment ENV] [--mode {set,get}]
 
 ---------------
 What is Codacy?
