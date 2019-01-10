@@ -4,6 +4,10 @@
 .. image:: https://circleci.com/gh/codacy/ssm2eb.svg?style=svg&circle-token=4ff9167ff36273f376a7660660541bf8a3625d8f
     :target: https://circleci.com/gh/codacy/ssm2eb
 
+.. image:: https://pypip.in/v/ssm2eb/badge.png
+    :target: https://pypi.org/project/ssm2eb/
+    :alt: Latest PyPI version
+    
 ======
 SSM2EB
 ======
