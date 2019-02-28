@@ -26,8 +26,8 @@ def get_ssm_data(parameter, env):
         value = response["Parameter"]["Value"]
         print("OK", file=sys.stderr)
     except SSM_CLIENT.exceptions.ParameterNotFound:
-        value = "NOT FOUND IN SSM"
-        print(value, file=sys.stderr)
+        print("NOT FOUND IN SSM", file=sys.stderr)
+        sys.exit(1)
 
     return dict(option_name=name, value=value)
 
@@ -79,8 +79,16 @@ def main():
         parser.print_help()
         sys.exit(1)
 
+    if not args.input:
+        print("Missing mandatory argument: `--input / -i`")
+        sys.exit(1)
+
+
     template_data = yaml.load(open(args.input, 'r'))
     config_data = dict(option_settings=list())
+
+    if template_data["external"] is None:
+        template_data["external"] = list()
 
     if args.mode == 'get':
         for par in template_data["component"] + template_data["external"]:
