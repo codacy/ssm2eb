@@ -1,9 +1,9 @@
 .. image:: https://api.codacy.com/project/badge/Grade/f557a65b337b45a5977533f6ba82492b
    :target: https://www.codacy.com?utm_source=github.com&utm_medium=referral&utm_content=codacy/ssm2eb&utm_campaign=Badge_Grade
 
-.. image:: https://circleci.com/gh/codacy/ssm2eb.svg?style=svg&circle-token=4ff9167ff36273f376a7660660541bf8a3625d8f
+.. image:: https://circleci.com/gh/codacy/ssm2eb.svg?style=svg&circle-token=58eb00693898fe2f4d7d7e475d3d7eeb0bf60c16
     :target: https://circleci.com/gh/codacy/ssm2eb
-
+    
 .. image:: https://pypip.in/v/ssm2eb/badge.svg
     :target: https://pypi.org/project/ssm2eb/
     :alt: Latest PyPI version
