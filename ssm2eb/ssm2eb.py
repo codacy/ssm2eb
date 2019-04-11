@@ -95,11 +95,22 @@ def main():
     template_data = yaml.load(open(args.input, 'r'))
     config_data = dict(option_settings=list())
 
-    if template_data["external"] is None:
-        template_data["external"] = list()
+    try:
+        data_external = template_data["external"]
+        if data_external is None:
+            data_external = list()
+    except:
+        data_external = list()
+
+    try:
+        data_component = template_data["component"]
+        if data_component is None:
+            data_component = list()
+    except:
+        data_component = list()
 
     if args.mode == 'get':
-        for par in template_data["component"] + template_data["external"]:
+        for par in data_component + data_external:
             try:
                 param = get_ssm_data(par, args.env)
                 if param:
@@ -108,14 +119,15 @@ def main():
                 print("ERROR: REQUIRED PARAMETER NOT FOUND IN SSM", file=sys.stderr)
                 sys.exit(1)
 
-        if args.output:
-            yaml.dump(config_data, open(args.output, 'w'),
-                      default_flow_style=False)
-        else:
-            yaml.dump(config_data, sys.stdout, default_flow_style=False)
+        if len(config_data["option_settings"]) > 0:
+            if args.output:
+                yaml.dump(config_data, open(args.output, 'w'),
+                          default_flow_style=False)
+            else:
+                yaml.dump(config_data, sys.stdout, default_flow_style=False)
 
     elif args.mode == 'set':
-        for par in template_data["component"]:
+        for par in data_component:
             set_ssm_data(par, args.env)
 
 
