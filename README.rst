@@ -3,11 +3,11 @@
 
 .. image:: https://circleci.com/gh/codacy/ssm2eb.svg?style=svg&circle-token=58eb00693898fe2f4d7d7e475d3d7eeb0bf60c16
     :target: https://circleci.com/gh/codacy/ssm2eb
-    
+
 .. image:: https://pypip.in/v/ssm2eb/badge.svg
     :target: https://pypi.org/project/ssm2eb/
     :alt: Latest PyPI version
-    
+
 ======
 SSM2EB
 ======

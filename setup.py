@@ -4,6 +4,7 @@ import codecs
 
 from setuptools import setup, find_packages
 
+dependencies = ['boto3>=1.9.75', 'PyYAML>=3.13']
 
 def read(*parts):
     return codecs.open(os.path.join(here, *parts), 'r').read()
@@ -36,6 +37,9 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     packages=find_packages(),
-    install_requires=['boto3>=1.9.75', 'PyYAML>=3.13'],
+    install_requires=dependencies,
+    extras_require={
+        'test': ["pytest",'moto @ git+https://github.com/spulec/moto.git@66dafc6679e979c8ad102c0a782d9731179945c6#egg=moto']
+    },
     include_package_data=True
 )

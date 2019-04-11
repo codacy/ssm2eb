@@ -6,6 +6,7 @@ component: # Will be set to the "value" field or stdin when `--mode set` is used
   - option_name: TARGET_USER
     description: "Target user"
     path: "/myservice/TARGET_USER"
+    required: false
 
 external:
   - option_name: PRE_EXISTING_VARIABLE_1

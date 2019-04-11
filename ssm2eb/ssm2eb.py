@@ -16,8 +16,15 @@ def get_ssm_data(parameter, env):
     :return: dictionary with the "parameter_name" and "value" obtained from SSM
 
     """
-
     name = parameter["option_name"]
+    required = True
+    if "required" in parameter:
+        if parameter["required"] in [True, False]:
+            required = parameter["required"]
+        else:
+            print("ERROR: \"required\" for '%s' should be \"true\" or \"false\". Falling back to default (true)" %
+                  name, file=sys.stderr)
+
     path = "/%s%s" % (env, parameter["path"]) if env else parameter["path"]
 
     print("Getting '%s'..." % path, file=sys.stderr, end='', flush=True)
@@ -25,11 +32,13 @@ def get_ssm_data(parameter, env):
         response = SSM_CLIENT.get_parameter(Name=path)
         value = response["Parameter"]["Value"]
         print("OK", file=sys.stderr)
-    except SSM_CLIENT.exceptions.ParameterNotFound:
-        print("NOT FOUND IN SSM", file=sys.stderr)
-        sys.exit(1)
-
-    return dict(option_name=name, value=value)
+        return dict(option_name=name, value=value)
+    except SSM_CLIENT.exceptions.ParameterNotFound as e:
+        if required:
+            raise e
+        else:
+            print("NON REQUIRED, NOT FOUND IN SSM. SKIPPING", file=sys.stderr)
+    return None
 
 
 def set_ssm_data(parameter, env):
@@ -83,7 +92,6 @@ def main():
         print("Missing mandatory argument: `--input / -i`")
         sys.exit(1)
 
-
     template_data = yaml.load(open(args.input, 'r'))
     config_data = dict(option_settings=list())
 
@@ -92,7 +100,13 @@ def main():
 
     if args.mode == 'get':
         for par in template_data["component"] + template_data["external"]:
-            config_data["option_settings"].append(get_ssm_data(par, args.env))
+            try:
+                param = get_ssm_data(par, args.env)
+                if param:
+                    config_data["option_settings"].append(param)
+            except SSM_CLIENT.exceptions.ParameterNotFound:
+                print("ERROR: REQUIRED PARAMETER NOT FOUND IN SSM", file=sys.stderr)
+                sys.exit(1)
 
         if args.output:
             yaml.dump(config_data, open(args.output, 'w'),
