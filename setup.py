@@ -38,8 +38,5 @@ setup(
     ],
     packages=find_packages(),
     install_requires=dependencies,
-    extras_require={
-        'test': ["pytest",'moto @ git+https://github.com/spulec/moto.git@66dafc6679e979c8ad102c0a782d9731179945c6#egg=moto']
-    },
     include_package_data=True
 )

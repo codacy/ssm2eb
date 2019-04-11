@@ -1,0 +1,2 @@
+pytest
+moto @ git+https://github.com/spulec/moto.git@66dafc6679e979c8ad102c0a782d9731179945c6#egg=moto
