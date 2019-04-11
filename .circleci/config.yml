@@ -32,7 +32,7 @@ jobs:
           command: |
             python3 -m venv env
             . env/bin/activate
-            python3 -m pip install --upgrade .[test]
+            python3 -m pip install --upgrade -r test_requirements.pip
       - run:
           name: test
           environment:
