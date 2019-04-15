@@ -69,6 +69,23 @@ def set_ssm_data(parameter, env):
         print(response)
         return response
 
+def get_data(key, data, default=list()):
+    """ Safely get the value of a key
+
+    :param key: key to the data of interest
+    :param data: dictionary holding the data
+    :param default: what to return if the key is missing or empty
+    :return: the value for `key` of default
+    """
+
+    if key in data:
+        if data[key] is None:
+            return default
+        else:
+            return data[key]
+    else:
+        return default
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -95,22 +112,8 @@ def main():
     template_data = yaml.load(open(args.input, 'r'))
     config_data = dict(option_settings=list())
 
-    try:
-        data_external = template_data["external"]
-        if data_external is None:
-            data_external = list()
-    except:
-        data_external = list()
-
-    try:
-        data_component = template_data["component"]
-        if data_component is None:
-            data_component = list()
-    except:
-        data_component = list()
-
     if args.mode == 'get':
-        for par in data_component + data_external:
+        for par in get_data("component", template_data) + get_data("external", template_data):
             try:
                 param = get_ssm_data(par, args.env)
                 if param:
@@ -127,9 +130,8 @@ def main():
                 yaml.dump(config_data, sys.stdout, default_flow_style=False)
 
     elif args.mode == 'set':
-        for par in data_component:
+        for par in get_data("component", template_data):
             set_ssm_data(par, args.env)
-
 
 if __name__ == '__main__':
     main()
