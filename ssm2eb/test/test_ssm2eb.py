@@ -69,7 +69,7 @@ def test_get_non_required_ssm_data(parameter, env):
 
 
 def test_get_data():
-    test_dict = dict(winter="coming", spring=None)
+    test_dict = dict(winter="coming")
     assert isinstance(ssm2eb.get_data("fall", test_dict), list)
     assert ssm2eb.get_data("winter", test_dict) is "coming"
     assert ssm2eb.get_data("summer", test_dict, "warm") is "warm"
