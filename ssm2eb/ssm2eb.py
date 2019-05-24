@@ -69,6 +69,23 @@ def set_ssm_data(parameter, env):
         print(response)
         return response
 
+def get_data(key, data, default=list()):
+    """ Safely get the value of a key
+
+    :param key: key to the data of interest
+    :param data: dictionary holding the data
+    :param default: what to return if the key is missing or empty
+    :return: the value for `key` of default
+    """
+
+    if key in data:
+        if data[key] is None:
+            return default
+        else:
+            return data[key]
+    else:
+        return default
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -95,11 +112,8 @@ def main():
     template_data = yaml.load(open(args.input, 'r'))
     config_data = dict(option_settings=list())
 
-    if template_data["external"] is None:
-        template_data["external"] = list()
-
     if args.mode == 'get':
-        for par in template_data["component"] + template_data["external"]:
+        for par in get_data("component", template_data) + get_data("external", template_data):
             try:
                 param = get_ssm_data(par, args.env)
                 if param:
@@ -108,16 +122,16 @@ def main():
                 print("ERROR: REQUIRED PARAMETER NOT FOUND IN SSM", file=sys.stderr)
                 sys.exit(1)
 
-        if args.output:
-            yaml.dump(config_data, open(args.output, 'w'),
-                      default_flow_style=False)
-        else:
-            yaml.dump(config_data, sys.stdout, default_flow_style=False)
+        if len(config_data["option_settings"]) > 0:
+            if args.output:
+                yaml.dump(config_data, open(args.output, 'w'),
+                          default_flow_style=False)
+            else:
+                yaml.dump(config_data, sys.stdout, default_flow_style=False)
 
     elif args.mode == 'set':
-        for par in template_data["component"]:
+        for par in get_data("component", template_data):
             set_ssm_data(par, args.env)
-
 
 if __name__ == '__main__':
     main()
