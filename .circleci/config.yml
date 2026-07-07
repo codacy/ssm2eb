@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codacy: codacy/base@13.0.3
+  aws-cli: circleci/aws-cli@5.4.2
 
 jobs:
   checkout_and_version:
@@ -113,10 +113,18 @@ workflows:
             branches:
               ignore:
                 - master
+      - aws-cli/setup:
+          name: aws_setup
+          profile_name: integration
+          aws_secret_access_key: $SECRET_ACCESS_KEY
+          region: eu-west-1
+          requires:
+            - checkout_and_version
       - test:
           context: CodacyAWS
           requires:
             - checkout_and_version
+            - aws_setup
 
   build_and_deploy:
     jobs:
