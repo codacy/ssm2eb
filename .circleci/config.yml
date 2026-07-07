@@ -119,6 +119,7 @@ workflows:
           context: CodacyAWS
           cmd: |
             echo "Setting up AWS credentials"
+            ls -al ~/.aws
           requires:
             - checkout_and_version
       - test:
