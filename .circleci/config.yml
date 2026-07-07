@@ -108,7 +108,6 @@ jobs:
     environment:
       AWS_DEFAULT_REGION: eu-west-1
       AWS_PROFILE: integration
-    executor: aws
     steps:
       - persist_to_workspace:
           root: ~/
@@ -145,6 +144,7 @@ workflows:
           requires:
           - checkout_and_version
       - deploy:
+          executor: aws
           context: CodacyPyPi
           requires:
           - test
