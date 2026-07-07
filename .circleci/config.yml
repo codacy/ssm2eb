@@ -13,10 +13,6 @@ jobs:
       - run:
           name: Current version
           command: cat VERSION
-      - codacy/aws_deploy:
-          name: setup_credentials
-          aws_profile: integration
-          context: CodacyAWS
       - persist_to_workspace:
           root: ~/
           paths:
@@ -114,6 +110,12 @@ workflows:
             branches:
               ignore:
                 - master
+      - codacy/aws_deploy:
+          name: setup_credentials
+          aws_profile: integration
+          context: CodacyAWS
+          requires:
+            - checkout_and_version
       - test:
           requires:
           - checkout_and_version
