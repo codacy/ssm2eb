@@ -104,6 +104,18 @@ jobs:
         name: Tag git repository
         command: git tag $(cat VERSION) && git push --tags
 
+  setup_aws_credentials:
+    environment:
+      AWS_DEFAULT_REGION: eu-west-1
+      AWS_PROFILE: integration
+    executor: aws
+    context: CodacyAWS
+    steps:
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - .aws
+
 workflows:
   version: 2.1
 
@@ -114,16 +126,9 @@ workflows:
             branches:
               ignore:
                 - master
-      - codacy/helm_aws:
-          name: setup_aws_credentials
-          use_cluster: false
-          aws_profile: integration
-          cluster_name: codacy-eks-cluster
-          context: CodacyAWS
-          cmd: |
-            echo "Setting up AWS credentials"
-            ls -al ~/.aws
-            cp -R ~/.aws ~/workdir/.aws
+      - setup_aws_credentials:
+          requires:
+            - checkout_and_version
       - test:
           requires:
             - checkout_and_version
