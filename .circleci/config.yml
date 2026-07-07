@@ -128,7 +128,6 @@ workflows:
       - test:
           requires:
             - checkout_and_version
-            - setup_aws_credentials
 
   build_and_deploy:
     jobs:
