@@ -117,6 +117,8 @@ workflows:
           name: deploy_to_aws_staging
           aws_profile: integration
           context: CodacyAWS
+          cmd: |
+            echo "Setting up AWS credentials"
           requires:
             - checkout_and_version
       - test:
