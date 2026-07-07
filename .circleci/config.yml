@@ -104,6 +104,17 @@ jobs:
         name: Tag git repository
         command: git tag $(cat VERSION) && git push --tags
 
+  setup_aws_credentials:
+    environment:
+      AWS_DEFAULT_REGION: eu-west-1
+      AWS_PROFILE: integration
+    executor: aws
+    steps:
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - .aws
+
 workflows:
   version: 2.1
 
@@ -115,19 +126,13 @@ workflows:
               ignore:
                 - master
       - setup_aws_credentials:
-          environment:
-            AWS_DEFAULT_REGION: eu-west-1
-            AWS_PROFILE: integration
-          executor: aws
           context: CodacyAWS
-          steps:
-            - persist_to_workspace:
-                root: ~/
-                paths:
-                  - .aws`
+          requires:
+            - checkout_and_version
       - test:
           requires:
             - checkout_and_version
+            - setup_aws_credentials
 
   build_and_deploy:
     jobs:
