@@ -1,4 +1,7 @@
-version: 2
+version: 2.1
+
+orbs:
+  aws-cli: circleci/aws-cli@5.4.2
 
 jobs:
   checkout_and_version:
@@ -20,7 +23,7 @@ jobs:
 
   test:
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:3.9.6
     working_directory: ~/workdir
     steps:
       - attach_workspace:
@@ -47,7 +50,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:3.9.6
     working_directory: ~/workdir
     steps:
       - attach_workspace:
@@ -82,7 +85,7 @@ jobs:
 
   tag_version:
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:3.9.6
     working_directory: ~/workdir
     steps:
     - attach_workspace:
@@ -100,8 +103,19 @@ jobs:
         name: Tag git repository
         command: git tag $(cat VERSION) && git push --tags
 
+  configure_role_arn:
+    executor: aws-cli/default
+    profile_name: integration
+    aws_secret_access_key: $SECRET_ACCESS_KEY
+    region: eu-west-1
+    steps:
+      - aws-cli/setup:
+          profile_name: default
+      - run: >-
+          aws sts get-caller-identity
+
 workflows:
-  version: 2
+  version: 2.1
 
   test:
     jobs:
@@ -110,9 +124,16 @@ workflows:
             branches:
               ignore:
                 - master
-      - test:
+      - aws-cli/setup:
+          name: aws_setup
+          context: CodacyAWS
           requires:
-          - checkout_and_version
+            - checkout_and_version
+      - test:
+          context: CodacyAWS
+          requires:
+            - checkout_and_version
+            - aws_setup
 
   build_and_deploy:
     jobs:
