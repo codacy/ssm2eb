@@ -103,6 +103,17 @@ jobs:
         name: Tag git repository
         command: git tag $(cat VERSION) && git push --tags
 
+  configure_role_arn:
+    executor: aws-cli/default
+    profile_name: integration
+    aws_secret_access_key: $SECRET_ACCESS_KEY
+    region: eu-west-1
+    steps:
+      - aws-cli/setup:
+          profile_name: default
+      - run: >-
+          aws sts get-caller-identity
+
 workflows:
   version: 2.1
 
@@ -115,9 +126,7 @@ workflows:
                 - master
       - aws-cli/setup:
           name: aws_setup
-          profile_name: integration
-          aws_secret_access_key: $SECRET_ACCESS_KEY
-          region: eu-west-1
+          context: CodacyAWS
           requires:
             - checkout_and_version
       - test:
