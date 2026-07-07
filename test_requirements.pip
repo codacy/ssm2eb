@@ -1,2 +1,2 @@
 pytest
-moto @ git+https://github.com/spulec/moto.git@latest
+moto
